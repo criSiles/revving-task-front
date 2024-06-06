@@ -11,7 +11,7 @@
     <div class="nav-items" v-if="!isMobile">
       <a class="nav-link">Solutions</a>
       <a class="nav-link">Company</a>
-      <a class="nav-link">Contact us</a>
+      <a class="nav-link">Contact Us</a>
       <a class="nav-link">Login</a>
       <!-- TODO: Fix the arrow icon -->
       <button class="nav-button" @click="login">
