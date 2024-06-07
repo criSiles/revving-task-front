@@ -10,14 +10,14 @@
       <p class="description">
         Upload your spreadsheet to get started. We will calculate your monthly expectations based on
         the data you provide.
-        <!-- <UploadSpreadSheet /> -->
+        <UploadSpreadSheet />
       </p>
     </div>
   </section>
 </template>
 
 <script setup>
-// import UploadSpreadSheet from '../components/UploadSpreadSheet.vue'
+import UploadSpreadSheet from '../components/UploadSpreadSheet.vue'
 </script>
 
 <style scoped>
@@ -37,6 +37,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   background: url(/src/assets/bgBox.svg) 0% 0% / cover no-repeat rgb(33, 33, 33);
   border-width: 1px;
   border-style: solid;

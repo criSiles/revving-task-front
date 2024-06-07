@@ -13,9 +13,8 @@
       <a class="nav-link">Company</a>
       <a class="nav-link">Contact Us</a>
       <a class="nav-link">Login</a>
-      <!-- TODO: Fix the arrow icon -->
       <button class="nav-button" @click="login">
-        Get Demo <i class="fa-sharp fa-solid fa-angles-right"></i>
+        Get Demo <i class="fa-sharp fa-solid fa-angles-right arrow-icon"></i>
       </button>
     </div>
   </header>
@@ -89,8 +88,7 @@ export default {
 .nav-button:hover {
   background-color: var(--text-secondary);
 }
-.icon {
-  color: red;
-  background-color: aqua;
+.arrow-icon {
+  margin-left: 0.5rem;
 }
 </style>

@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <div class="upload-container">
     <input type="file" id="file" @change="handleFileUpload" style="display: none" />
     <label for="file" class="file-input-label">
+      <i class="fa-solid fa-upload upload-icon"></i>
       {{ fileName || 'Select a file' }}
     </label>
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     <p v-if="uploadMessage" class="success">{{ uploadMessage }}</p>
-    <button @click="onSubmit">Submit</button>
+    <button class="submit-button" @click="onSubmit">Submit</button>
   </div>
 </template>
 
@@ -29,7 +30,7 @@ export default {
       this.jsonData = []
 
       if (!file) {
-        this.errorMessage = 'No file selected'
+        this.errorMessage = 'No file selected, please select a file to upload'
         return
       }
 
@@ -80,21 +81,52 @@ export default {
 </script>
 
 <style>
-.error {
-  color: red;
-  margin-top: 10px;
-}
-
-.success {
-  color: green;
-  margin-top: 10px;
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .file-input-label {
+  margin-top: 2rem;
   display: inline-block;
-  padding: 10px 15px;
+  padding: 1rem 2rem;
   background-color: var(--bg-secondary);
+  border-radius: 2px;
   color: white;
   cursor: pointer;
+}
+.file-input-label:hover {
+  background-color: var(--text-secondary);
+}
+
+.submit-button {
+  padding: 0.95rem 3.8rem;
+  background-color: transparent;
+  border: 2px solid var(--text-primary);
+  color: var(--text-primary);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.submit-button:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-secondary);
+}
+
+.upload-icon {
+  margin-right: 0.5rem;
+}
+.error {
+  color: var(--bg-secondary);
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+.success {
+  color: var(--text-tertiary);
+  opacity: 0.8;
+  font-weight: 500;
 }
 </style>
