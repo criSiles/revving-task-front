@@ -30,12 +30,12 @@ export default {
   },
   data() {
     return {
-      isMobile: window.innerWidth <= 768
+      isMobile: window.innerWidth <= 800
     }
   },
   methods: {
     updateIsMobile() {
-      this.isMobile = window.innerWidth <= 768
+      this.isMobile = window.innerWidth <= 800
     }
   },
   mounted() {
@@ -68,7 +68,6 @@ export default {
 
 .nav-link {
   color: var(--text-tertiary);
-  font-weight: 600;
   text-decoration: none;
   cursor: pointer;
 }
@@ -80,7 +79,6 @@ export default {
 .nav-button {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-  font-weight: 600;
   padding: 0.5rem 1.5rem;
   border: none;
   border-radius: 2px;

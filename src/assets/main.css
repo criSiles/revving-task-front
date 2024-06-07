@@ -1,9 +1,20 @@
 @import './base.css';
+/* TODO: I want the whole application with some margins on the left without the displacement*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
 
-#app {
-  max-width: 1200px;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
   margin: 0 auto;
-  font-weight: normal;
+  max-width: 1200px;
 }
 
 :root {
@@ -21,4 +32,36 @@ body {
 
 a {
   font-size: 1rem;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  padding: 0 1rem;
+}
+
+.subtitle {
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.instruction-heading {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  padding: 0 1rem;
+}
+
+.description {
+  color: var(--text-tertiary);
+  font-size: 1rem;
+  padding: 0 1rem;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-top: 1rem;
 }
