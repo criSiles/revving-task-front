@@ -7,7 +7,7 @@
     </label>
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     <p v-if="uploadMessage" class="success">{{ uploadMessage }}</p>
-    <button class="submit-button" @click="onSubmit">Submit</button>
+    <button class="submit-button" @click="onSubmit" :disabled="!isFileValid">Submit</button>
   </div>
 </template>
 
@@ -20,7 +20,8 @@ export default {
     return {
       jsonData: [],
       errorMessage: '',
-      uploadMessage: ''
+      uploadMessage: '',
+      isFileValid: false
     }
   },
   methods: {
@@ -59,8 +60,10 @@ export default {
           const firstSheetName = workbook.SheetNames[0]
           const worksheet = workbook.Sheets[firstSheetName]
           this.jsonData = XLSX.utils.sheet_to_json(worksheet)
-          this.uploadMessage = 'File uploaded'
+          this.uploadMessage = 'File uploaded, please submit'
+          this.isFileValid = true
         } catch (error) {
+          this.isFileValid = false
           this.errorMessage =
             'Error parsing the file. Please make sure the file is a valid Excel spreadsheet.'
         }
@@ -68,11 +71,16 @@ export default {
 
       reader.onerror = () => {
         this.errorMessage = 'Error reading the file.'
+        this.isFileValid = false
       }
 
       reader.readAsArrayBuffer(file)
     },
     onSubmit() {
+      if (!this.isFileValid) {
+        this.errorMessage = 'Please upload a valid spreadsheet before submitting.'
+        return
+      }
       // Here I'll write the code to send the jsonData to the server
       console.log(this.jsonData)
     }
@@ -97,8 +105,13 @@ export default {
   color: white;
   cursor: pointer;
 }
+
 .file-input-label:hover {
   background-color: var(--text-secondary);
+}
+
+.upload-icon {
+  margin-right: 0.5rem;
 }
 
 .submit-button {
@@ -110,14 +123,16 @@ export default {
   cursor: pointer;
   font-size: 1rem;
 }
+
 .submit-button:hover {
   border-color: var(--text-secondary);
   color: var(--text-secondary);
 }
 
-.upload-icon {
-  margin-right: 0.5rem;
+.submit-button:disabled {
+  cursor: not-allowed;
 }
+/* TODO: Make an animation when I send the data when I click the button */
 .error {
   color: var(--bg-secondary);
   opacity: 0.8;
