@@ -115,7 +115,7 @@ export default {
 }
 
 .submit-button {
-  padding: 0.95rem 3.8rem;
+  padding: 0.95rem 3.6rem;
   background-color: transparent;
   border: 2px solid var(--text-primary);
   color: var(--text-primary);

@@ -10,8 +10,8 @@
       <p class="description">
         Upload your spreadsheet to get started. We will calculate your monthly expectations based on
         the data you provide.
-        <UploadSpreadSheet />
       </p>
+      <UploadSpreadSheet />
     </div>
   </section>
 </template>
