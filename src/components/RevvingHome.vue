@@ -12,12 +12,20 @@
         the data you provide.
       </p>
       <UploadSpreadSheet />
+      <CalculationResults v-if="data.dataReceived" />
     </div>
   </section>
 </template>
 
 <script setup>
+import { reactive } from 'vue'
 import UploadSpreadSheet from '../components/UploadSpreadSheet.vue'
+import CalculationResults from '../components/CalculationResults.vue'
+
+// TODO: Apply logic to change this value from the backend
+const data = reactive({
+  dataReceived: true
+})
 </script>
 
 <style scoped>
