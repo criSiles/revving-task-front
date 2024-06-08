@@ -6,6 +6,7 @@
       {{ fileName || 'Select a file' }}
     </label>
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    <div v-if="isLoading" class="loader"></div>
     <p v-if="uploadMessage" class="success">{{ uploadMessage }}</p>
     <button class="submit-button" @click="onSubmit" :disabled="!isFileValid">Submit</button>
   </div>
@@ -21,8 +22,8 @@ export default {
     return {
       jsonData: [],
       errorMessage: '',
-      uploadMessage: '',
-      isFileValid: false
+      isFileValid: false,
+      isLoading: false
     }
   },
   methods: {
@@ -61,8 +62,22 @@ export default {
           const firstSheetName = workbook.SheetNames[0]
           const worksheet = workbook.Sheets[firstSheetName]
           this.jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false })
-          this.uploadMessage = 'File uploaded, please submit'
           this.isFileValid = true
+          this.isLoading = true
+
+          // Send the JSON data to the server immediately after file upload
+          postRawData(this.jsonData)
+            .then((responseData) => {
+              console.log('Success:', responseData)
+              this.uploadMessage = 'File successfully uploaded and data submitted.'
+            })
+            .catch((error) => {
+              console.error('Error calling postRawData:', error)
+              this.errorMessage = 'Failed to submit data. Please try again.'
+            })
+            .finally(() => {
+              this.isLoading = false
+            })
         } catch (error) {
           this.isFileValid = false
           this.errorMessage =
@@ -76,22 +91,22 @@ export default {
       }
 
       reader.readAsArrayBuffer(file)
-    },
-    onSubmit() {
-      if (!this.isFileValid) {
-        this.errorMessage = 'Please upload a valid spreadsheet before submitting.'
-        return
-      }
-
-      // Send the JSON data to the server
-      postRawData(this.jsonData)
-        .then((responseData) => {
-          console.log('Success:', responseData)
-        })
-        .catch((error) => {
-          console.error('Error calling postRawData:', error)
-        })
     }
+    // onSubmit() {
+    //   if (!this.isFileValid) {
+    //     this.errorMessage = 'Please upload a valid spreadsheet before submitting.'
+    //     return
+    //   }
+
+    //   // Send the JSON data to the server
+    //   postRawData(this.jsonData)
+    //     .then((responseData) => {
+    //       console.log('Success:', responseData)
+    //     })
+    //     .catch((error) => {
+    //       console.error('Error calling postRawData:', error)
+    //     })
+    // }
   }
 }
 </script>
@@ -152,5 +167,23 @@ export default {
   color: var(--text-tertiary);
   opacity: 0.8;
   font-weight: 500;
+}
+
+.loader {
+  border: 5px solid var(--text-primary);
+  border-top: 5px solid var(--text-secondary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
