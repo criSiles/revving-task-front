@@ -32,6 +32,7 @@ const data = reactive({
 </script>
 
 <style scoped>
+/* TODO: Improve the design */
 #calculation-results {
   display: flex;
   flex-direction: column;
@@ -68,7 +69,7 @@ const data = reactive({
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .calculation-details {
     flex-direction: column;
     align-items: center;

@@ -1,7 +1,6 @@
 @import './base.css';
 @import url('https://pro.fontawesome.com/releases/v6.0.0-beta2/css/all.css');
 
-/* TODO: I want the whole application with some margins on the left without the displacement*/
 * {
   margin: 0;
   padding: 0;
@@ -51,6 +50,7 @@ a {
   font-size: 1.75rem;
   padding: 0 1rem;
   text-align: center;
+  width: 60%;
 }
 
 .instruction-heading {
@@ -66,4 +66,14 @@ a {
   font-weight: 500;
   opacity: 0.8;
   margin-top: 1rem;
+  width: 60%;
+}
+
+@media (max-width: 768px) {
+  .subtitle {
+    width: 100%;
+  }
+  .description {
+    width: 100%;
+  }
 }

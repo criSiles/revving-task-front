@@ -13,6 +13,7 @@
 
 <script>
 import * as XLSX from 'xlsx'
+import { postRawData } from '@/api/backend'
 
 export default {
   name: 'UploadSpreadsheet',
@@ -59,7 +60,7 @@ export default {
           const workbook = XLSX.read(data, { type: 'array' })
           const firstSheetName = workbook.SheetNames[0]
           const worksheet = workbook.Sheets[firstSheetName]
-          this.jsonData = XLSX.utils.sheet_to_json(worksheet)
+          this.jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false })
           this.uploadMessage = 'File uploaded, please submit'
           this.isFileValid = true
         } catch (error) {
@@ -81,8 +82,15 @@ export default {
         this.errorMessage = 'Please upload a valid spreadsheet before submitting.'
         return
       }
-      // Here I'll write the code to send the jsonData to the server
-      console.log(this.jsonData)
+
+      // Send the JSON data to the server
+      postRawData(this.jsonData)
+        .then((responseData) => {
+          console.log('Success:', responseData)
+        })
+        .catch((error) => {
+          console.error('Error calling postRawData:', error)
+        })
     }
   }
 }
@@ -132,6 +140,7 @@ export default {
 .submit-button:disabled {
   cursor: not-allowed;
 }
+
 /* TODO: Make an animation when I send the data when I click the button */
 .error {
   color: var(--bg-secondary);

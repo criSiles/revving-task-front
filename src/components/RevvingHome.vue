@@ -1,9 +1,7 @@
 <template>
   <section id="calculation-section">
-    <h2 class="title">
-      Calculation
-      <span class="subtitle">Quick and easy way to calculate your monthly expectations</span>
-    </h2>
+    <h2 class="title">Calculation</h2>
+    <span class="subtitle">Quick and easy way to calculate your monthly expectations</span>
     <div class="calculation-container">
       <img class="calculation-icon" src="/src/assets/palm-coin-icon.svg" />
       <h3 class="instruction-heading">Upload your spreadsheet</h3>
@@ -24,7 +22,7 @@ import CalculationResults from '../components/CalculationResults.vue'
 
 // TODO: Apply logic to change this value from the backend
 const data = reactive({
-  dataReceived: true
+  dataReceived: false
 })
 </script>
 

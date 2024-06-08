@@ -1,12 +1,7 @@
 <template>
-
+  <p>2024 © Revving Ltd. All Rights Reserved.</p>
 </template>
 
-<script setup>
+<script setup></script>
 
-</script>
-
-
-<style scoped>
-
-</style>
+<style scoped></style>
