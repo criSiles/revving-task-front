@@ -32,7 +32,7 @@ const data = reactive({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 2rem;
+  padding: 2rem 1rem;
 }
 
 .calculation-container {

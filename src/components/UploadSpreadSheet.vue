@@ -7,7 +7,9 @@
     </label>
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     <div v-if="isLoading" class="loader"></div>
-    <p v-if="uploadMessage" class="success">{{ uploadMessage }}</p>
+    <ul class="revenue-source-list" v-if="response && response.length > 0">
+      <li v-for="(revenue_source, index) in response" :key="index">{{ revenue_source }}</li>
+    </ul>
     <button class="submit-button" @click="onSubmit" :disabled="!isFileValid">Submit</button>
   </div>
 </template>
@@ -23,7 +25,8 @@ export default {
       jsonData: [],
       errorMessage: '',
       isFileValid: false,
-      isLoading: false
+      isLoading: false,
+      response: []
     }
   },
   methods: {
@@ -31,6 +34,7 @@ export default {
       const file = event.target.files[0]
       this.errorMessage = ''
       this.jsonData = []
+      this.response = []
 
       if (!file) {
         this.errorMessage = 'No file selected, please select a file to upload'
@@ -69,7 +73,7 @@ export default {
           postRawData(this.jsonData)
             .then((responseData) => {
               console.log('Success:', responseData)
-              this.uploadMessage = 'File successfully uploaded and data submitted.'
+              this.response = responseData
             })
             .catch((error) => {
               console.error('Error calling postRawData:', error)
@@ -137,34 +141,8 @@ export default {
   margin-right: 0.5rem;
 }
 
-.submit-button {
-  padding: 0.95rem 3.6rem;
-  background-color: transparent;
-  border: 2px solid var(--text-primary);
-  color: var(--text-primary);
-  border-radius: 2px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.submit-button:hover {
-  border-color: var(--text-secondary);
-  color: var(--text-secondary);
-}
-
-.submit-button:disabled {
-  cursor: not-allowed;
-}
-
-/* TODO: Make an animation when I send the data when I click the button */
 .error {
   color: var(--bg-secondary);
-  opacity: 0.8;
-  font-weight: 500;
-}
-
-.success {
-  color: var(--text-tertiary);
   opacity: 0.8;
   font-weight: 500;
 }
@@ -185,5 +163,54 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+.revenue-source-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  max-width: 600px;
+  border: 1px solid var(--text-secondary);
+  border-radius: 2px;
+  cursor: pointer;
+  color: var(--text-primary);
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.revenue-source-list li {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.revenue-source-list li:last-child {
+  border-bottom: none;
+}
+
+.revenue-source-list li:hover {
+  background-color: var(--text-tertiary);
+  color: var(--text-secondary);
+}
+
+.submit-button {
+  padding: 0.95rem 3.6rem;
+  background-color: transparent;
+  border: 2px solid var(--text-primary);
+  color: var(--text-primary);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.submit-button:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-secondary);
+}
+
+.submit-button:disabled {
+  cursor: not-allowed;
 }
 </style>

@@ -55,7 +55,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 2rem;
+  padding: 2rem 1rem;
 }
 
 .revving-logo {
