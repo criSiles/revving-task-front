@@ -3,20 +3,42 @@
     <input type="file" id="file" @change="handleFileUpload" style="display: none" />
     <label for="file" class="file-input-label">
       <i class="fa-solid fa-upload upload-icon"></i>
-      {{ fileName || 'Select a file' }}
+      Select a file
     </label>
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     <div v-if="isLoading" class="loader"></div>
-    <ul class="revenue-source-list" v-if="response && response.length > 0">
-      <li v-for="(revenue_source, index) in response" :key="index">{{ revenue_source }}</li>
-    </ul>
+    <div class="selection-container" v-if="response && response.length > 0">
+      <div class="selection-block">
+        <h2 class="title">Revenue Source</h2>
+        <ul class="revenue-source-list">
+          <li
+            v-for="(revenue_source, index) in response"
+            :key="index"
+            @click="setRevenueSource(revenue_source)"
+          >
+            {{ revenue_source }}
+          </li>
+        </ul>
+      </div>
+      <!-- TODO: Change the format in the backend to accept this -->
+      <!-- TODO: Style calendar -->
+      <div class="selection-block">
+        <label class="title" for="start-date">Start Date:</label>
+        <input type="date" id="start-date" v-model="start_date" />
+      </div>
+      <div class="selection-block">
+        <label class="title" for="end-date">End Date:</label>
+        <input type="date" id="end-date" v-model="end_date" />
+      </div>
+    </div>
     <button class="submit-button" @click="onSubmit" :disabled="!isFileValid">Submit</button>
+    <p v-if="calculationsReceived">Calculations received!</p>
   </div>
 </template>
 
 <script>
 import * as XLSX from 'xlsx'
-import { postRawData } from '@/api/backend'
+import { postRawData, postCalculateValues } from '@/api/backend'
 
 export default {
   name: 'UploadSpreadsheet',
@@ -26,7 +48,11 @@ export default {
       errorMessage: '',
       isFileValid: false,
       isLoading: false,
-      response: []
+      response: [],
+      start_date: '',
+      end_date: '',
+      revenue_source: null,
+      calculationsReceived: false
     }
   },
   methods: {
@@ -95,22 +121,45 @@ export default {
       }
 
       reader.readAsArrayBuffer(file)
-    }
-    // onSubmit() {
-    //   if (!this.isFileValid) {
-    //     this.errorMessage = 'Please upload a valid spreadsheet before submitting.'
-    //     return
-    //   }
+    },
+    setRevenueSource(value) {
+      this.revenue_source = value
+    },
+    onSubmit() {
+      console.log('Submitting data:', this.start_date, this.end_date, this.revenue_source)
 
-    //   // Send the JSON data to the server
-    //   postRawData(this.jsonData)
-    //     .then((responseData) => {
-    //       console.log('Success:', responseData)
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error calling postRawData:', error)
-    //     })
-    // }
+      // Validate data
+      if (!this.start_date || !this.end_date || !this.revenue_source) {
+        this.errorMessage = 'Please ensure all fields are filled out correctly.'
+        return
+      }
+
+      // Prepare data
+      const payload = {
+        start_date: this.start_date,
+        end_date: this.end_date,
+        revenue_source: this.revenue_source
+      }
+
+      // Send data
+      this.isLoading = true
+      this.calculationsReceived = false
+      postCalculateValues(payload)
+        .then((response) => {
+          this.response = response.data
+          // Handle success - you might want to clear the form or give user feedback
+          console.log('Data submitted successfully', response)
+        })
+        .catch((error) => {
+          // Handle error - update errorMessage or handle the error as needed
+          this.errorMessage = 'Failed to submit data: ' + error.message
+          console.error('Error submitting data', error)
+        })
+        .finally(() => {
+          this.isLoading = false
+          this.calculationsReceived = true
+        })
+    }
   }
 }
 </script>
@@ -175,6 +224,7 @@ export default {
   color: var(--text-primary);
   height: 500px;
   overflow-y: scroll;
+  margin-top: 1rem;
 }
 
 .revenue-source-list li {
@@ -195,6 +245,23 @@ export default {
   color: var(--text-secondary);
 }
 
+.selection-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.selection-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
 .submit-button {
   padding: 0.95rem 3.6rem;
   background-color: transparent;
@@ -203,6 +270,7 @@ export default {
   border-radius: 2px;
   cursor: pointer;
   font-size: 1rem;
+  margin-top: 1rem;
 }
 
 .submit-button:hover {
