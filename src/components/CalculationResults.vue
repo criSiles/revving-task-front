@@ -3,32 +3,38 @@
     <div class="calculation-container">
       <h2 class="title">Results</h2>
       <div class="calculation-details">
-        <p class="calculation-text">Total income expected from {{ data.revenue_source }}:</p>
-        <p class="results">{{ data.total_value }}{{ data.currency }}</p>
+        <p class="calculation-text">
+          Total income expected from {{ selectedFields.revenue_source }}:
+        </p>
+        <p class="results">
+          {{ calculationResultsData.total_value }} {{ selectedFields.target_currency }}
+        </p>
       </div>
       <div class="calculation-details">
         <p class="calculation-text">Advanced money Revving can lend:</p>
-        <p class="results">{{ data.advanced }}{{ data.currency }}</p>
+        <p class="results">
+          {{ calculationResultsData.advance_value }} {{ selectedFields.target_currency }}
+        </p>
       </div>
       <div class="calculation-details">
         <p class="calculation-text">Revving fees for the loan:</p>
-        <p class="results">{{ data.fees }}{{ data.currency }}</p>
+        <p class="results">
+          {{ calculationResultsData.total_fees }}{{ selectedFields.target_currency }}
+        </p>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { defineProps } from 'vue'
 
-// TODO: Apply backend logic to obtain these values
-const data = reactive({
-  total_value: 1000,
-  currency: '€',
-  revenue_source: 'Google Ads',
-  advanced: 100,
-  fees: 4
+// Define props to receive data
+const props = defineProps({
+  calculationResultsData: Object,
+  selectedFields: Object
 })
+console.log(props.selectedFields)
 </script>
 
 <style scoped>

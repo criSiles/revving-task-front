@@ -5,8 +5,9 @@
       <i class="fa-solid fa-upload upload-icon"></i>
       Select a file
     </label>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    <p v-if="errorUploadFile" class="error">{{ errorUploadFile }}</p>
     <div v-if="isLoading" class="loader"></div>
+    <!-- TODO: When the list shows, stay up instead of go down -->
     <div class="selection-container" v-if="response && response.length > 0">
       <div class="selection-block">
         <h2 class="title">Revenue Source</h2>
@@ -20,8 +21,9 @@
           </li>
         </ul>
       </div>
-      <!-- TODO: Change the format in the backend to accept this -->
+      <!-- TODO: Change the date format in the backend to accept this -->
       <!-- TODO: Style calendar -->
+      <!-- TODO: Style scrollbar -->
       <div class="selection-block">
         <label class="title" for="start-date">Start Date:</label>
         <input type="date" id="start-date" v-model="start_date" />
@@ -32,38 +34,50 @@
       </div>
     </div>
     <button class="submit-button" @click="onSubmit" :disabled="!isFileValid">Submit</button>
-    <p v-if="calculationsReceived">Calculations received!</p>
+    <p v-if="submitError" class="error">{{ submitError }}</p>
+    <CalculationResults
+      v-if="calculationsReceived"
+      :calculationResultsData="calculationResultsData"
+      :selectedFields="selectedFields"
+    />
   </div>
 </template>
 
 <script>
 import * as XLSX from 'xlsx'
 import { postRawData, postCalculateValues } from '@/api/backend'
+import CalculationResults from './CalculationResults.vue'
 
 export default {
   name: 'UploadSpreadsheet',
+  components: {
+    CalculationResults
+  },
   data() {
     return {
       jsonData: [],
-      errorMessage: '',
+      errorUploadFile: '',
       isFileValid: false,
       isLoading: false,
       response: [],
       start_date: '',
       end_date: '',
       revenue_source: null,
-      calculationsReceived: false
+      submitError: '',
+      calculationsReceived: false,
+      calculationResultsData: {},
+      selectedFields: {}
     }
   },
   methods: {
     handleFileUpload(event) {
       const file = event.target.files[0]
-      this.errorMessage = ''
+      this.errorUploadFile = ''
       this.jsonData = []
       this.response = []
 
       if (!file) {
-        this.errorMessage = 'No file selected, please select a file to upload'
+        this.errorUploadFile = 'No file selected, please select a file to upload'
         return
       }
 
@@ -73,14 +87,14 @@ export default {
         'application/vnd.ms-excel'
       ]
       if (!validFileTypes.includes(file.type)) {
-        this.errorMessage = 'Invalid file type. Please upload an Excel file (.xlsx or .xls).'
+        this.errorUploadFile = 'Invalid file type. Please upload an Excel file (.xlsx or .xls).'
         return
       }
 
       // Validate file size (limit: 5MB)
       const maxSizeInBytes = 5 * 1024 * 1024
       if (file.size > maxSizeInBytes) {
-        this.errorMessage = 'File size exceeds the 5MB limit.'
+        this.errorUploadFile = 'File size exceeds the 5MB limit.'
         return
       }
 
@@ -103,20 +117,20 @@ export default {
             })
             .catch((error) => {
               console.error('Error calling postRawData:', error)
-              this.errorMessage = 'Failed to submit data. Please try again.'
+              this.errorUploadFile = 'Failed to submit data. Please try again.'
             })
             .finally(() => {
               this.isLoading = false
             })
         } catch (error) {
           this.isFileValid = false
-          this.errorMessage =
+          this.errorUploadFile =
             'Error parsing the file. Please make sure the file is a valid Excel spreadsheet.'
         }
       }
 
       reader.onerror = () => {
-        this.errorMessage = 'Error reading the file.'
+        this.errorUploadFile = 'Error reading the file.'
         this.isFileValid = false
       }
 
@@ -130,29 +144,33 @@ export default {
 
       // Validate data
       if (!this.start_date || !this.end_date || !this.revenue_source) {
-        this.errorMessage = 'Please ensure all fields are filled out correctly.'
+        this.submitError = 'Please ensure all fields are filled out correctly.'
         return
       }
 
       // Prepare data
-      const payload = {
+      this.selectedFields = {
+        // Update this line
         start_date: this.start_date,
         end_date: this.end_date,
-        revenue_source: this.revenue_source
+        revenue_source: this.revenue_source,
+        target_currency: 'EUR'
       }
 
       // Send data
       this.isLoading = true
       this.calculationsReceived = false
-      postCalculateValues(payload)
+      postCalculateValues(this.selectedFields)
         .then((response) => {
           this.response = response.data
+          this.calculationResultsData = response
+          console.log(this.calculationResultsData)
           // Handle success - you might want to clear the form or give user feedback
           console.log('Data submitted successfully', response)
         })
         .catch((error) => {
           // Handle error - update errorMessage or handle the error as needed
-          this.errorMessage = 'Failed to submit data: ' + error.message
+          this.submitError = 'Failed to submit data: ' + error.message
           console.error('Error submitting data', error)
         })
         .finally(() => {
@@ -191,9 +209,9 @@ export default {
 }
 
 .error {
-  color: var(--bg-secondary);
+  color: rgb(250, 80, 80);
   opacity: 0.8;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .loader {
@@ -243,6 +261,11 @@ export default {
 .revenue-source-list li:hover {
   background-color: var(--text-tertiary);
   color: var(--text-secondary);
+}
+
+.revenue-source-list li:active {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .selection-container {
