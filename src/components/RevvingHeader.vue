@@ -1,21 +1,25 @@
 <template>
   <header id="revving-header">
-    <img
-      alt="Revving logo"
-      class="revving-logo"
-      src="@/assets/logoRevving.svg"
-      width="125"
-      height="125"
-    />
+    <a href="https://www.revving.io/">
+      <img
+        alt="Revving logo"
+        class="revving-logo"
+        src="@/assets/logoRevving.svg"
+        width="125"
+        height="125"
+      />
+    </a>
     <HamburgerComponent v-if="isMobile" />
     <div class="nav-items" v-if="!isMobile">
-      <a class="nav-link">Solutions</a>
-      <a class="nav-link">Company</a>
-      <a class="nav-link">Contact Us</a>
-      <a class="nav-link">Login</a>
-      <button class="nav-button" @click="login">
-        Get Demo <i class="fa-sharp fa-solid fa-angles-right arrow-icon"></i>
-      </button>
+      <a class="nav-link" href="https://www.revving.io/">Solutions</a>
+      <a class="nav-link" href="https://www.revving.io/about-us">Company</a>
+      <a class="nav-link" href="https://www.revving.io/contact-us">Contact Us</a>
+      <a class="nav-link" href="https://app.revving.io/login">Login</a>
+      <a href="https://www.revving.io/contact-us">
+        <button class="nav-button" @click="login">
+          Get Demo <i class="fa-sharp fa-solid fa-angles-right arrow-icon"></i>
+        </button>
+      </a>
     </div>
   </header>
 </template>
@@ -57,6 +61,7 @@ export default {
 .revving-logo {
   width: auto;
   height: 40px;
+  cursor: pointer;
 }
 
 .nav-items {
