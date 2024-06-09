@@ -19,7 +19,7 @@
       <div class="calculation-details">
         <p class="calculation-text">Revving fees for the loan:</p>
         <p class="results">
-          {{ calculationResultsData.total_fees }}{{ selectedFields.target_currency }}
+          {{ calculationResultsData.total_fees }} {{ selectedFields.target_currency }}
         </p>
       </div>
     </div>

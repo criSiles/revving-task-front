@@ -11,15 +11,12 @@
     <div class="selection-container" v-if="response && response.length > 0">
       <div class="selection-block">
         <h2 class="title">Revenue Source</h2>
-        <ul class="revenue-source-list">
-          <li
-            v-for="(revenue_source, index) in response"
-            :key="index"
-            @click="setRevenueSource(revenue_source)"
-          >
+        <select v-model="revenue_source" @change="setRevenueSource(revenue_source)">
+          <option disabled value="">{{ 'Select a revenue source' }}</option>
+          <option v-for="(revenue_source, index) in response" :key="index" :value="revenue_source">
             {{ revenue_source }}
-          </li>
-        </ul>
+          </option>
+        </select>
       </div>
       <!-- TODO: Change the date format in the backend to accept this -->
       <!-- TODO: Style calendar -->
@@ -31,6 +28,14 @@
       <div class="selection-block">
         <label class="title" for="end-date">End Date:</label>
         <input type="date" id="end-date" v-model="end_date" />
+      </div>
+      <div class="selection-block">
+        <label class="title" for="currency">Currency:</label>
+        <select id="currency" v-model="target_currency">
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+          <option value="GBP">GBP</option>
+        </select>
       </div>
     </div>
     <button class="submit-button" @click="onSubmit" :disabled="!isFileValid">Submit</button>
@@ -62,11 +67,12 @@ export default {
       response: [],
       start_date: '',
       end_date: '',
-      revenue_source: null,
+      revenue_source: '',
       submitError: '',
       calculationsReceived: false,
       calculationResultsData: {},
-      selectedFields: {}
+      selectedFields: {},
+      target_currency: 'EUR'
     }
   },
   methods: {
@@ -154,7 +160,7 @@ export default {
         start_date: this.start_date,
         end_date: this.end_date,
         revenue_source: this.revenue_source,
-        target_currency: 'EUR'
+        target_currency: this.target_currency
       }
 
       // Send data
@@ -230,42 +236,6 @@ export default {
   100% {
     transform: rotate(360deg);
   }
-}
-.revenue-source-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  max-width: 600px;
-  border: 1px solid var(--text-secondary);
-  border-radius: 2px;
-  cursor: pointer;
-  color: var(--text-primary);
-  height: 500px;
-  overflow-y: scroll;
-  margin-top: 1rem;
-}
-
-.revenue-source-list li {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s;
-}
-
-.revenue-source-list li:last-child {
-  border-bottom: none;
-}
-
-.revenue-source-list li:hover {
-  background-color: var(--text-tertiary);
-  color: var(--text-secondary);
-}
-
-.revenue-source-list li:active {
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
 }
 
 .selection-container {
