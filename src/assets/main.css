@@ -25,10 +25,12 @@ body {
   --text-tertiary: #d9dcef;
   --bg-primary: #212121;
   --bg-secondary: #7272fb;
+  --header-height: 90px;
 }
 
 body {
   background-color: var(--bg-primary);
+  padding-top: var(--header-height);
 }
 
 a {
@@ -66,7 +68,52 @@ a {
   font-weight: 500;
   opacity: 0.8;
   margin-top: 1rem;
-  width: 60%;
+  width: 100%;
+}
+
+.commun-container {
+  margin-top: 2rem;
+  width: 100%;
+  box-shadow: rgb(0, 0, 0) 4px 4px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: url(/src/assets/bgBox.svg) 0% 0% / cover no-repeat rgb(33, 33, 33);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(154, 161, 248, 0.5);
+  border-image: initial;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.commun-icon {
+  width: 60px;
+  aspect-ratio: auto 60 / 64;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+body::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--text-primary);
+  border-radius: 10px;
+}
+
+/* Styling the scrollbar thumb */
+body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--text-secondary);
+}
+
+/* Add a hover effect to the scrollbar thumb */
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-secondary);
 }
 
 @media (max-width: 768px) {

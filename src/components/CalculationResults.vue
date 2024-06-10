@@ -1,78 +1,57 @@
 <template>
-  <section id="calculation-results">
-    <div class="calculation-container">
-      <h2 class="title">Results</h2>
-      <div class="calculation-details">
-        <p class="calculation-text">
-          Total income expected from {{ selectedFields.revenue_source }}:
-        </p>
-        <p class="results">
-          {{ calculationResultsData.total_value }} {{ selectedFields.target_currency }}
-        </p>
-      </div>
-      <div class="calculation-details">
-        <p class="calculation-text">Advanced money Revving can lend:</p>
-        <p class="results">
-          {{ calculationResultsData.advance_value }} {{ selectedFields.target_currency }}
-        </p>
-      </div>
-      <div class="calculation-details">
-        <p class="calculation-text">Revving fees for the loan:</p>
-        <p class="results">
-          {{ calculationResultsData.total_fees }} {{ selectedFields.target_currency }}
-        </p>
-      </div>
-    </div>
-  </section>
+  <div class="commun-container">
+    <img class="commun-icon" src="/src/assets/multicurrency-icon.svg" />
+    <h3 class="instruction-heading">Check the results</h3>
+    <p class="description">
+      Finally, look at the results of the calculation based on the data you provided
+    </p>
+    <table class="calculation-table">
+      <tbody>
+        <tr>
+          <td>Total income expected from {{ revenue_source }}</td>
+          <td>{{ calculationResultsData.total_value }} {{ target_currency }}</td>
+        </tr>
+        <tr>
+          <td>Advanced loan you'll receive</td>
+          <td>{{ calculationResultsData.advance_value }} {{ target_currency }}</td>
+        </tr>
+        <tr>
+          <td>Revving fees for the loan</td>
+          <td>{{ calculationResultsData.total_fees }} {{ target_currency }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue'
 
-// Define props to receive data
 const props = defineProps({
   calculationResultsData: Object,
-  selectedFields: Object
+  revenue_source: String,
+  target_currency: String
 })
 console.log(props.selectedFields)
 </script>
 
 <style scoped>
-/* TODO: Improve the design */
-#calculation-results {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 4rem;
-  margin-bottom: 4rem;
-}
-
-.calculation-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%; /* adjust as needed */
-  margin-top: 2rem;
-}
-.calculation-text {
-  color: var(--text-tertiary);
-  font-size: 1rem;
-  padding: 0 1rem;
-  font-weight: 500;
-  opacity: 0.8;
-}
-.results {
-  margin-left: 6rem;
-  font-size: 1rem;
-  font-weight: 500;
+.calculation-table {
+  width: 70%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  cursor: pointer;
   color: var(--text-primary);
 }
 
-.results:hover {
-  color: var(--text-secondary);
-  cursor: pointer;
+.calculation-table td {
+  border: 1px solid var(--text-secondary);
+  padding: 8px;
+}
+
+.calculation-table tr:hover {
+  color: var(--text-primary);
+  background-color: var(--text-secondary);
 }
 
 @media (max-width: 800px) {
