@@ -7,7 +7,7 @@
     </p>
     <div class="selection-block">
       <label class="instruction-heading" for="revenue_source">Revenue Source</label>
-      <select v-model="revenue_source" @change="updateParent" class="selection-style">
+      <select v-model="revenue_source" class="selection-style">
         <option disabled value="">{{ 'Select a revenue source' }}</option>
         <option
           v-for="(revenue_source, index) in revenue_source_list"
@@ -20,15 +20,15 @@
     </div>
     <div class="selection-block">
       <label class="instruction-heading" for="start-date">From</label>
-      <input type="date" id="start-date" v-model="start_date" @change="updateParent" />
+      <input type="date" id="start-date" v-model="start_date" />
     </div>
     <div class="selection-block">
       <label class="instruction-heading" for="end-date">To</label>
-      <input type="date" id="end-date" v-model="end_date" @change="updateParent" />
+      <input type="date" id="end-date" v-model="end_date" />
     </div>
     <div class="selection-block">
       <label class="instruction-heading" for="currency">Currency</label>
-      <select id="currency" v-model="target_currency" @change="updateParent">
+      <select id="currency" v-model="target_currency">
         <option disabled value="">{{ 'Select' }}</option>
         <option value="EUR">EUR</option>
         <option value="USD">USD</option>
@@ -105,6 +105,7 @@ export default {
           }
 
           this.responseCalculation = response
+          this.calculationReceived = true
         })
         .catch((error) => {
           this.submitError = 'Failed to submit data: ' + error.message
@@ -112,7 +113,6 @@ export default {
         })
         .finally(() => {
           this.isLoading = false
-          this.calculationReceived = true
         })
     }
   }

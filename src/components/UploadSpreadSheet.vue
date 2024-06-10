@@ -122,21 +122,6 @@ export default {
   margin-right: 0.5rem;
 }
 
-.error {
-  color: rgb(250, 80, 80);
-  opacity: 0.8;
-  font-weight: 400;
-}
-
-.loader {
-  border: 5px solid var(--text-primary);
-  border-top: 5px solid var(--text-secondary);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 2s linear infinite;
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);

@@ -32,7 +32,7 @@ const props = defineProps({
   revenue_source: String,
   target_currency: String
 })
-console.log(props.selectedFields)
+console.log(props.calculationResultsData, props.revenue_source, props.target_currency)
 </script>
 
 <style scoped>
