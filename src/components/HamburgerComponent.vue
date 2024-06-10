@@ -1,50 +1,6 @@
 <template>
   <div id="menu">
-    <!-- <ul
-      id="menu-items"
-      :style="{ transform: isCheckboxChecked ? 'translateX(0)' : 'translateX(140%)' }"
-    >
-      <li>
-        <router-link
-          @click="isCheckboxChecked = false"
-          class="nav-links"
-          :to="{ path: '/', hash: '#music' }"
-          >Música</router-link
-        >
-      </li>
-      <li>
-        <router-link
-          @click="isCheckboxChecked = false"
-          class="nav-links"
-          :to="{ path: '/', hash: '#tour' }"
-          >Tour</router-link
-        >
-      </li>
-      <li>
-        <router-link
-          @click="isCheckboxChecked = false"
-          class="nav-links"
-          :to="{ path: '/', hash: '#bio' }"
-          >Biografía</router-link
-        >
-      </li>
-      <li>
-        <router-link
-          @click="isCheckboxChecked = false"
-          class="nav-links"
-          :to="{ path: '/', hash: '#shop' }"
-          >Tienda</router-link
-        >
-      </li>
-      <li>
-        <router-link
-          @click="isCheckboxChecked = false"
-          class="nav-links"
-          :to="{ path: '/', hash: '#contact' }"
-          >Contacto</router-link
-        >
-      </li>
-    </ul> -->
+    <!-- TODO:Display the menu on mobile -->
     <div id="hamburger" class="menu-container menu-size">
       <input
         id="menu-checkbox"

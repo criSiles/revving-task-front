@@ -1,6 +1,6 @@
 # revving-task-front
 
-This template should help get you started developing with Vue 3 in Vite.
+A component of a website that lends customers money based on invoices from a revenue source.
 
 ## Recommended IDE Setup
 

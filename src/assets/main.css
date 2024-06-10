@@ -1,9 +1,21 @@
 @import './base.css';
+@import url('https://pro.fontawesome.com/releases/v6.0.0-beta2/css/all.css');
 
-#app {
-  max-width: 1200px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
   margin: 0 auto;
-  font-weight: normal;
+  max-width: 1200px;
 }
 
 :root {
@@ -13,12 +25,102 @@
   --text-tertiary: #d9dcef;
   --bg-primary: #212121;
   --bg-secondary: #7272fb;
+  --header-height: 90px;
 }
 
 body {
   background-color: var(--bg-primary);
+  padding-top: var(--header-height);
 }
 
 a {
   font-size: 1rem;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  padding: 0 1rem;
+}
+
+.subtitle {
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  padding: 0 1rem;
+  text-align: center;
+  width: 60%;
+}
+
+.instruction-heading {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  padding: 0 1rem;
+}
+
+.description {
+  color: var(--text-tertiary);
+  font-size: 1rem;
+  padding: 0 1rem;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.commun-container {
+  margin-top: 2rem;
+  width: 100%;
+  box-shadow: rgb(0, 0, 0) 4px 4px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: url(/src/assets/bgBox.svg) 0% 0% / cover no-repeat rgb(33, 33, 33);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(154, 161, 248, 0.5);
+  border-image: initial;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.commun-icon {
+  width: 60px;
+  aspect-ratio: auto 60 / 64;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+body::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--text-primary);
+  border-radius: 10px;
+}
+
+/* Styling the scrollbar thumb */
+body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--text-secondary);
+}
+
+/* Add a hover effect to the scrollbar thumb */
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-secondary);
+}
+
+@media (max-width: 768px) {
+  .subtitle {
+    width: 100%;
+  }
+  .description {
+    width: 100%;
+  }
 }
